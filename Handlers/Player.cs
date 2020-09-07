@@ -30,6 +30,12 @@ namespace BloodLust049.Handlers
 
         public void OnChangingRole(ChangingRoleEventArgs ev)
         {
+            Log.Debug("Player changed role", BloodLust049.Instance.Config.Debug);
+            if (ev.Player.Role == RoleType.Scp049)
+            {
+                BloodLust049.Instance.Scp049InGame = false;
+                BloodLust049.Instance.Scp049 = null;
+            }
             if (ev.NewRole == RoleType.Scp049 && !BloodLust049.Instance.Scp049InGame)
             {
                 Log.Debug("New role 049", BloodLust049.Instance.Config.Debug);
@@ -42,6 +48,9 @@ namespace BloodLust049.Handlers
                     BloodLust049.Instance.Coro = Timing.RunCoroutine(BloodLust049.Instance.BloodLust());
                     BloodLust049.Instance.Coroutines.Add(BloodLust049.Instance.Coro);
                 }
+            } else
+            {
+                Log.Debug($"Role not 049 or there is already an 049, new role: {ev.NewRole} 049 in game: {BloodLust049.Instance.Scp049InGame}", BloodLust049.Instance.Config.Debug);
             }
         }
     }

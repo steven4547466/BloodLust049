@@ -17,7 +17,7 @@ namespace BloodLust049
         public override PluginPriority Priority { get; } = PluginPriority.Medium;
         public override string Name { get; } = "BloodLust049";
         public override string Author { get; } = "Steven4547466";
-        public override Version Version { get; } = new Version(1, 0, 0);
+        public override Version Version { get; } = new Version(1, 0, 1);
         public override Version RequiredExiledVersion { get; } = new Version(2, 1, 2);
         public override string Prefix { get; } = "BloodLust049";
 
@@ -44,6 +44,7 @@ namespace BloodLust049
             base.OnEnabled();
             Log.Info("BloodLust049 enabled.");
             RegisterEvents();
+            Coroutines = new List<CoroutineHandle>();
         }
 
         public override void OnDisabled()
