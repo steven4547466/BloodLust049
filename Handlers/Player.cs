@@ -8,16 +8,17 @@ namespace BloodLust049.Handlers
     {
         public void OnDied(DiedEventArgs ev)
         {
-            if(!BloodLust049.Instance.Config.DisableInstantRevive && ev.Killer.Role == RoleType.Scp049 && (BloodLust049.Instance.bloodLustActive || BloodLust049.Instance.Config.AlwaysInstantRevive))
+            if (ev.Killer != null && ev.Target.Role != RoleType.Scp049)
             {
-                Log.Debug("049 killed player, respawning", BloodLust049.Instance.Config.Debug);
-                Timing.CallDelayed(0.5f, () =>
+                if (!BloodLust049.Instance.Config.DisableInstantRevive && ev.Killer.Role == RoleType.Scp049 && (BloodLust049.Instance.bloodLustActive || BloodLust049.Instance.Config.AlwaysInstantRevive))
                 {
-                    ev.Target.Role = RoleType.Scp0492;
-                });
-            }
-
-            if(ev.Target.Role == RoleType.Scp049) BloodLust049.Instance.Scp049InGame = false;
+                    Log.Debug("049 killed player, respawning", BloodLust049.Instance.Config.Debug);
+                    Timing.CallDelayed(0.5f, () =>
+                    {
+                        if(ev.Target != null) ev.Target.Role = RoleType.Scp0492;
+                    });
+                }
+            } else if(ev.Target.Role == RoleType.Scp049) BloodLust049.Instance.Scp049InGame = false;
         }
 
         public void OnHurting(HurtingEventArgs ev)
